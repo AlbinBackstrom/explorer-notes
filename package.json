@@ -1,0 +1,174 @@
+{
+  "name": "explorer-notes",
+  "displayName": "Explorer Notes",
+  "description": "A simple notepad in the Explorer sidebar. Create and manage Markdown notes across all your VS Code windows.",
+  "publisher": "albin",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": ["Other"],
+  "main": "./out/extension.js",
+  "activationEvents": [],
+  "contributes": {
+    "views": {
+      "explorer": [
+        {
+          "id": "explorerNotes",
+          "name": "Notes",
+          "contextualTitle": "Explorer Notes"
+        }
+      ]
+    },
+    "viewsWelcome": [
+      {
+        "view": "explorerNotes",
+        "contents": "No notes yet.\n[Create Note](command:explorerNotes.createNote)"
+      }
+    ],
+    "commands": [
+      {
+        "command": "explorerNotes.createNote",
+        "title": "Create Note",
+        "category": "Notes",
+        "icon": "$(add)"
+      },
+      {
+        "command": "explorerNotes.renameNote",
+        "title": "Rename Note",
+        "category": "Notes",
+        "icon": "$(edit)"
+      },
+      {
+        "command": "explorerNotes.deleteNote",
+        "title": "Delete Note",
+        "category": "Notes",
+        "icon": "$(trash)"
+      },
+      {
+        "command": "explorerNotes.duplicateNote",
+        "title": "Duplicate Note",
+        "category": "Notes"
+      },
+      {
+        "command": "explorerNotes.revealInFinder",
+        "title": "Reveal in Finder",
+        "category": "Notes"
+      },
+      {
+        "command": "explorerNotes.sortNameAsc",
+        "title": "Sort by Name (A→Z)",
+        "category": "Notes"
+      },
+      {
+        "command": "explorerNotes.sortNameDesc",
+        "title": "Sort by Name (Z→A)",
+        "category": "Notes"
+      },
+      {
+        "command": "explorerNotes.sortDateAsc",
+        "title": "Sort by Modified (Oldest)",
+        "category": "Notes"
+      },
+      {
+        "command": "explorerNotes.sortDateDesc",
+        "title": "Sort by Modified (Newest)",
+        "category": "Notes"
+      },
+      {
+        "command": "explorerNotes.openNote",
+        "title": "Open Note",
+        "category": "Explorer Notes",
+        "icon": "$(search)"
+      },
+      {
+        "command": "explorerNotes.refreshNotes",
+        "title": "Refresh Notes",
+        "category": "Notes",
+        "icon": "$(refresh)"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "explorerNotes.createNote",
+          "when": "view == explorerNotes",
+          "group": "navigation"
+        },
+        {
+          "command": "explorerNotes.refreshNotes",
+          "when": "view == explorerNotes",
+          "group": "navigation"
+        },
+        {
+          "command": "explorerNotes.sortNameAsc",
+          "when": "view == explorerNotes && explorerNotes.sort != name-asc",
+          "group": "1_sort@1"
+        },
+        {
+          "command": "explorerNotes.sortNameDesc",
+          "when": "view == explorerNotes && explorerNotes.sort == name-asc",
+          "group": "1_sort@1"
+        },
+        {
+          "command": "explorerNotes.sortDateDesc",
+          "when": "view == explorerNotes && explorerNotes.sort != date-desc",
+          "group": "1_sort@2"
+        },
+        {
+          "command": "explorerNotes.sortDateAsc",
+          "when": "view == explorerNotes && explorerNotes.sort == date-desc",
+          "group": "1_sort@2"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "explorerNotes.renameNote",
+          "when": "view == explorerNotes && viewItem == note",
+          "group": "inline"
+        },
+        {
+          "command": "explorerNotes.deleteNote",
+          "when": "view == explorerNotes && viewItem == note",
+          "group": "inline"
+        },
+        {
+          "command": "explorerNotes.duplicateNote",
+          "when": "view == explorerNotes && viewItem == note",
+          "group": "1_actions"
+        },
+        {
+          "command": "explorerNotes.renameNote",
+          "when": "view == explorerNotes && viewItem == note",
+          "group": "1_actions"
+        },
+        {
+          "command": "explorerNotes.deleteNote",
+          "when": "view == explorerNotes && viewItem == note",
+          "group": "2_danger"
+        },
+        {
+          "command": "explorerNotes.revealInFinder",
+          "when": "view == explorerNotes && viewItem == note",
+          "group": "3_other"
+        }
+      ]
+    },
+    "configurationDefaults": {
+      "[markdown]": {
+        "editor.pasteAs.enabled": true,
+        "editor.pasteAs.preferences": ["text.markdown.image.attachment"]
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.80.0",
+    "@types/node": "^20.0.0",
+    "typescript": "^5.4.0"
+  }
+}
