@@ -2,10 +2,14 @@
   "name": "explorer-notes",
   "displayName": "Explorer Notes",
   "description": "A simple notepad in the Explorer sidebar. Create and manage Markdown notes across all your VS Code windows.",
-  "publisher": "albin",
+  "publisher": "AlbinBackstom",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.80.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AlbinBackstrom/explorer-notes"
   },
   "categories": ["Other"],
   "main": "./out/extension.js",
