@@ -1,48 +1,64 @@
 # Explorer Notes
 
-A simple notepad in the Explorer sidebar. Create and manage Markdown notes that are shared across all your windows.
+A quick notepad right in the Explorer sidebar — always one click away, no matter what project you're in.
 
-Developed for [Cursor](https://cursor.com) but should work in VS Code as well.
+
+
+![Overview](assets/overview.png)
 
 ## Features
 
-- **Create, rename, duplicate, and delete** notes from the sidebar
-- **Markdown support** with built-in image paste (copy an image, paste it into a note)
-- **Sorting** by name (A-Z / Z-A) or modified date (newest / oldest), persisted across restarts
-- **Quick Open** — search and open notes via the Command Palette
-- **Reveal in Finder** — right-click a note to open it in your file manager
-- **Global storage** — notes live in VS Code's global storage, not in your workspace
+- **Markdown notes** in the Explorer sidebar with live preview
+- **Quick Pick search** to find and open notes from the command palette
+- **Sorting** by name or modified date via the `...` menu
+- **Right-click context menu** to rename, delete, duplicate, or reveal notes in Finder
+- **Image paste** — copy an image and paste it directly into a note
+- **Global storage** — notes live in VS Code's global storage, shared across all workspaces
+
+## Getting Started
+
+Open the **Notes** section at the bottom of the Explorer sidebar. If you have no notes yet, click **Create Note** to get started.
+
+![Empty state](assets/no-notes.png)
+
+## Editing Notes
+
+Click any note to open it in the editor. Use the built-in Markdown preview for a side-by-side editing experience.
+
+![Markdown editor with preview](assets/note.png)
+
+## Sorting
+
+Sort notes by name or modified date from the `...` menu. The sort option toggles direction — click again to reverse.
+
+![Sort menu](assets/more.png)
+
+## Context Menu
+
+Right-click any note to rename, delete, duplicate, or reveal it in Finder. Inline icons for delete and rename are also available on hover.
+
+![Right-click context menu](assets/right-click.png)
 
 ## Commands
 
 | Command | Description |
 |---------|-------------|
 | `Notes: Create Note` | Create a new Markdown note |
-| `Explorer Notes: Open Note` | Quick Pick search to open a note |
-| `Notes: Rename Note` | Rename an existing note |
-| `Notes: Duplicate Note` | Duplicate a note with its content |
-| `Notes: Delete Note` | Delete a note (with confirmation) |
-| `Notes: Reveal in Finder` | Open Finder with the note selected |
-| `Notes: Sort by Name (A-Z)` | Sort alphabetically ascending |
-| `Notes: Sort by Name (Z-A)` | Sort alphabetically descending |
-| `Notes: Sort by Modified (Newest)` | Sort by last modified, newest first |
-| `Notes: Sort by Modified (Oldest)` | Sort by last modified, oldest first |
-| `Notes: Refresh Notes` | Manually refresh the note list |
+| `Notes: Open Note` | Quick Pick search to open a note |
+
+All other actions (rename, delete, duplicate, reveal, sort) are available via the sidebar UI.
 
 ## Storage
 
-Notes are stored in VS Code's global extension storage:
+Notes are stored as `.md` files in VS Code's global extension storage:
 
 ```
-~/Library/Application Support/Code/User/globalStorage/albin.explorer-notes/
+~/Library/Application Support/Cursor/User/globalStorage/albinbackstrom.explorer-notes/
 ```
 
-This means notes are shared across all workspaces and windows, and don't pollute your project folders.
+Notes are shared across all workspaces and windows, and don't pollute your project folders.
 
-## Development
 
-```bash
-npm install
-npm run compile
-# Press F5 to launch the Extension Development Host
-```
+## License
+
+[MIT](LICENSE)

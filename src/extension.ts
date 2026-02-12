@@ -17,6 +17,10 @@ export function activate(context: vscode.ExtensionContext): void {
     notesProvider.createNote()
   );
 
+  const openNoteCmd = vscode.commands.registerCommand('explorerNotes.openNote', () =>
+    notesProvider.openNote()
+  );
+
   const deleteCmd = vscode.commands.registerCommand('explorerNotes.deleteNote', (item) =>
     notesProvider.deleteNote(item)
   );
@@ -31,10 +35,6 @@ export function activate(context: vscode.ExtensionContext): void {
 
   const revealCmd = vscode.commands.registerCommand('explorerNotes.revealInFinder', (item) =>
     notesProvider.revealInFinder(item)
-  );
-
-  const openNoteCmd = vscode.commands.registerCommand('explorerNotes.openNote', () =>
-    notesProvider.openNote()
   );
 
   const setSort = (key: SortKey) => {
@@ -58,10 +58,6 @@ export function activate(context: vscode.ExtensionContext): void {
     setSort('date-desc')
   );
 
-  const refreshCmd = vscode.commands.registerCommand('explorerNotes.refreshNotes', () =>
-    notesProvider.refresh()
-  );
-
   const watcher = vscode.workspace.createFileSystemWatcher(
     new vscode.RelativePattern(notesDir, '*.md')
   );
@@ -70,7 +66,7 @@ export function activate(context: vscode.ExtensionContext): void {
   watcher.onDidDelete(refresh);
   watcher.onDidChange(refresh);
 
-  context.subscriptions.push(treeView, createCmd, deleteCmd, renameCmd, duplicateCmd, revealCmd, openNoteCmd, sortNameAscCmd, sortNameDescCmd, sortDateAscCmd, sortDateDescCmd, refreshCmd, watcher);
+  context.subscriptions.push(treeView, createCmd, openNoteCmd, deleteCmd, renameCmd, duplicateCmd, revealCmd, sortNameAscCmd, sortNameDescCmd, sortDateAscCmd, sortDateDescCmd, watcher);
 }
 
 export function deactivate(): void {}

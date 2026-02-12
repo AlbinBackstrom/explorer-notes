@@ -3,7 +3,7 @@
   "displayName": "Explorer Notes",
   "description": "A simple notepad in the Explorer sidebar. Create and manage Markdown notes across all your VS Code windows.",
   "publisher": "AlbinBackstrom",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "engines": {
     "vscode": "^1.80.0"
   },
@@ -12,6 +12,7 @@
     "url": "https://github.com/AlbinBackstrom/explorer-notes"
   },
   "license": "MIT",
+  "icon": "assets/icon.png",
   "categories": ["Other"],
   "main": "./out/extension.js",
   "activationEvents": [],
@@ -39,69 +40,60 @@
         "icon": "$(add)"
       },
       {
+        "command": "explorerNotes.openNote",
+        "title": "Open Note",
+        "category": "Notes",
+        "icon": "$(search)"
+      },
+      {
         "command": "explorerNotes.renameNote",
         "title": "Rename Note",
-        "category": "Notes",
         "icon": "$(edit)"
       },
       {
         "command": "explorerNotes.deleteNote",
         "title": "Delete Note",
-        "category": "Notes",
         "icon": "$(trash)"
       },
       {
         "command": "explorerNotes.duplicateNote",
-        "title": "Duplicate Note",
-        "category": "Notes"
+        "title": "Duplicate Note"
       },
       {
         "command": "explorerNotes.revealInFinder",
-        "title": "Reveal in Finder",
-        "category": "Notes"
+        "title": "Reveal in Finder"
       },
       {
         "command": "explorerNotes.sortNameAsc",
-        "title": "Sort by Name (A→Z)",
-        "category": "Notes"
+        "title": "Sort by Name (A\u2192Z)"
       },
       {
         "command": "explorerNotes.sortNameDesc",
-        "title": "Sort by Name (Z→A)",
-        "category": "Notes"
+        "title": "Sort by Name (Z\u2192A)"
       },
       {
         "command": "explorerNotes.sortDateAsc",
-        "title": "Sort by Modified (Oldest)",
-        "category": "Notes"
+        "title": "Sort by Modified (Oldest)"
       },
       {
         "command": "explorerNotes.sortDateDesc",
-        "title": "Sort by Modified (Newest)",
-        "category": "Notes"
-      },
-      {
-        "command": "explorerNotes.openNote",
-        "title": "Open Note",
-        "category": "Explorer Notes",
-        "icon": "$(search)"
-      },
-      {
-        "command": "explorerNotes.refreshNotes",
-        "title": "Refresh Notes",
-        "category": "Notes",
-        "icon": "$(refresh)"
+        "title": "Sort by Modified (Newest)"
       }
     ],
     "menus": {
+      "commandPalette": [
+        { "command": "explorerNotes.renameNote", "when": "false" },
+        { "command": "explorerNotes.deleteNote", "when": "false" },
+        { "command": "explorerNotes.duplicateNote", "when": "false" },
+        { "command": "explorerNotes.revealInFinder", "when": "false" },
+        { "command": "explorerNotes.sortNameAsc", "when": "false" },
+        { "command": "explorerNotes.sortNameDesc", "when": "false" },
+        { "command": "explorerNotes.sortDateAsc", "when": "false" },
+        { "command": "explorerNotes.sortDateDesc", "when": "false" }
+      ],
       "view/title": [
         {
           "command": "explorerNotes.createNote",
-          "when": "view == explorerNotes",
-          "group": "navigation"
-        },
-        {
-          "command": "explorerNotes.refreshNotes",
           "when": "view == explorerNotes",
           "group": "navigation"
         },
