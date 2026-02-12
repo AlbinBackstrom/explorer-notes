@@ -1,6 +1,8 @@
 # Explorer Notes
 
-A simple notepad in the VS Code Explorer sidebar. Create and manage Markdown notes that are shared across all your VS Code windows.
+A simple notepad in the Explorer sidebar. Create and manage Markdown notes that are shared across all your windows.
+
+Developed for [Cursor](https://cursor.com) but should work in VS Code as well.
 
 ## Features
 
