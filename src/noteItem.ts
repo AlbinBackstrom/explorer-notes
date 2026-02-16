@@ -27,6 +27,13 @@ export class NoteItem extends vscode.TreeItem {
       arguments: [noteUri],
     };
 
-    this.iconPath = new vscode.ThemeIcon('markdown');
+    const iconMap: Record<string, string> = {
+      '.md': 'markdown',
+      '.json': 'json',
+      '.js': 'symbol-event',
+      '.ts': 'symbol-event',
+      '.py': 'symbol-event',
+    };
+    this.iconPath = new vscode.ThemeIcon(iconMap[path.extname(noteUri.fsPath)] ?? 'file');
   }
 }

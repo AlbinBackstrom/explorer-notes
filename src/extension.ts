@@ -59,7 +59,7 @@ export function activate(context: vscode.ExtensionContext): void {
   );
 
   const watcher = vscode.workspace.createFileSystemWatcher(
-    new vscode.RelativePattern(notesDir, '*.md')
+    new vscode.RelativePattern(notesDir, '{*.md,*.json,*.js,*.ts,*.py}')
   );
   const refresh = () => notesProvider.refresh();
   watcher.onDidCreate(refresh);

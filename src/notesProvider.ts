@@ -4,6 +4,21 @@ import { NoteItem } from './noteItem';
 
 export type SortKey = 'name-asc' | 'name-desc' | 'date-asc' | 'date-desc';
 
+const SUPPORTED_EXTENSIONS = ['.md', '.json', '.js', '.ts', '.py'];
+
+function isSupportedFile(name: string): boolean {
+  return SUPPORTED_EXTENSIONS.some(ext => name.endsWith(ext));
+}
+
+function parseNoteName(input: string): { baseName: string; ext: string } {
+  for (const ext of SUPPORTED_EXTENSIONS) {
+    if (input.endsWith(ext)) {
+      return { baseName: input.slice(0, -ext.length), ext };
+    }
+  }
+  return { baseName: input, ext: '.md' };
+}
+
 export class NotesProvider implements vscode.TreeDataProvider<NoteItem> {
   private _onDidChangeTreeData = new vscode.EventEmitter<NoteItem | undefined | void>();
   readonly onDidChangeTreeData = this._onDidChangeTreeData.event;
@@ -35,7 +50,7 @@ export class NotesProvider implements vscode.TreeDataProvider<NoteItem> {
     try {
       const entries = await vscode.workspace.fs.readDirectory(this.notesDir);
       const mdFiles = entries.filter(
-        ([name, type]) => type === vscode.FileType.File && name.endsWith('.md')
+        ([name, type]) => type === vscode.FileType.File && isSupportedFile(name)
       );
 
       const items = await Promise.all(
@@ -81,16 +96,16 @@ export class NotesProvider implements vscode.TreeDataProvider<NoteItem> {
     }
 
     const trimmed = name.trim();
-    const baseName = trimmed.endsWith('.md') ? trimmed.slice(0, -3) : trimmed;
+    const { baseName, ext } = parseNoteName(trimmed);
 
     await vscode.workspace.fs.createDirectory(this.notesDir);
 
-    let fileName = `${baseName}.md`;
+    let fileName = `${baseName}${ext}`;
     let noteUri = vscode.Uri.joinPath(this.notesDir, fileName);
     let counter = 1;
 
     while (await this.fileExists(noteUri)) {
-      fileName = `${baseName} (${counter}).md`;
+      fileName = `${baseName} (${counter})${ext}`;
       noteUri = vscode.Uri.joinPath(this.notesDir, fileName);
       counter++;
     }
@@ -110,7 +125,8 @@ export class NotesProvider implements vscode.TreeDataProvider<NoteItem> {
   }
 
   async renameNote(item: NoteItem): Promise<void> {
-    const oldName = path.basename(item.noteUri.fsPath, '.md');
+    const oldExt = path.extname(item.noteUri.fsPath);
+    const oldName = path.basename(item.noteUri.fsPath, oldExt);
     const newName = await vscode.window.showInputBox({
       prompt: 'Enter a new name for the note',
       value: oldName,
@@ -130,8 +146,9 @@ export class NotesProvider implements vscode.TreeDataProvider<NoteItem> {
       return;
     }
 
-    const baseName = trimmed.endsWith('.md') ? trimmed.slice(0, -3) : trimmed;
-    const fileName = `${baseName}.md`;
+    const parsed = parseNoteName(trimmed);
+    const ext = parsed.baseName === trimmed ? oldExt : parsed.ext;
+    const fileName = `${parsed.baseName}${ext}`;
     const newUri = vscode.Uri.joinPath(this.notesDir, fileName);
 
     try {
@@ -147,13 +164,14 @@ export class NotesProvider implements vscode.TreeDataProvider<NoteItem> {
   }
 
   async duplicateNote(item: NoteItem): Promise<void> {
-    const oldName = path.basename(item.noteUri.fsPath, '.md');
-    let fileName = `${oldName} - copy.md`;
+    const ext = path.extname(item.noteUri.fsPath);
+    const oldName = path.basename(item.noteUri.fsPath, ext);
+    let fileName = `${oldName} - copy${ext}`;
     let newUri = vscode.Uri.joinPath(this.notesDir, fileName);
     let counter = 1;
 
     while (await this.fileExists(newUri)) {
-      fileName = `${oldName} - copy (${counter}).md`;
+      fileName = `${oldName} - copy (${counter})${ext}`;
       newUri = vscode.Uri.joinPath(this.notesDir, fileName);
       counter++;
     }
@@ -167,7 +185,7 @@ export class NotesProvider implements vscode.TreeDataProvider<NoteItem> {
     try {
       const entries = await vscode.workspace.fs.readDirectory(this.notesDir);
       const mdFiles = entries
-        .filter(([name, type]) => type === vscode.FileType.File && name.endsWith('.md'))
+        .filter(([name, type]) => type === vscode.FileType.File && isSupportedFile(name))
         .sort(([a], [b]) => a.localeCompare(b));
 
       if (mdFiles.length === 0) {
